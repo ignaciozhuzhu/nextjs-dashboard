@@ -1,4 +1,5 @@
-import bcrypt from 'bcrypt';
+//import bcrypt from 'bcrypt';
+import bcrypt from "bcryptjs";  //# API完全兼容
 import postgres from 'postgres';
 import { invoices, customers, revenue, users } from '../lib/placeholder-data';
 
@@ -101,6 +102,11 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
+async function dropTables() {
+  await sql`DROP TABLE invoices`;
+  await sql`DROP TABLE users`;
+}
+
 export async function GET() {
   try {
     const result = await sql.begin((sql) => [
@@ -108,6 +114,7 @@ export async function GET() {
       seedCustomers(),
       seedInvoices(),
       seedRevenue(),
+      //dropTables()
     ]);
 
     return Response.json({ message: 'Database seeded successfully' });
