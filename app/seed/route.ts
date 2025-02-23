@@ -102,14 +102,14 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
-async function dropTables() {
+/*async function dropTables() {
   await sql`DROP TABLE invoices`;
   await sql`DROP TABLE users`;
-}
+}*/
 
 export async function GET() {
   try {
-    const result = await sql.begin((sql) => [
+    await sql.begin(() => [
       seedUsers(),
       seedCustomers(),
       seedInvoices(),
